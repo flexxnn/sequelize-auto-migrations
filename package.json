@@ -1,0 +1,34 @@
+{
+  "name": "sequelize-auto-migrations",
+  "version": "1.0.0",
+  "description": "Sequelize migrations generator && runner",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/flexxnn/sequelize-auto-migrations.git"
+  },
+  "keywords": [
+    "sequelize",
+    "migrations",
+    "database",
+    "db",
+    "sql"
+  ],
+  "author": "Michael Maslov",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/flexxnn/sequelize-auto-migrations/issues"
+  },
+  "homepage": "https://github.com/flexxnn/sequelize-auto-migrations#readme",
+  "dependencies": {
+    "command-line-args": "^4.0.4",
+    "deep-diff": "^0.3.8",
+    "js-beautify": "^1.6.14",
+    "lodash": "^4.17.4",
+    "object-hash": "^1.1.8",
+    "sequelize": "^3.30.4"
+  }
+}

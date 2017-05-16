@@ -1,13 +1,10 @@
-const fs                = require("fs");
 const path              = require("path");
-const _                 = require("lodash");
-
-const Async             = require("async");
 
 const commandLineArgs = require('command-line-args');
 
 const optionDefinitions = [
     { name: 'file', alias: 'f', type: String, description: 'Migration file name',},
+    { name: 'pos', alias: 'p', type: Number, description: 'Run migration at pos', defaultOption: 0 }
 //    { name: 'revision', type: Number, description: 'Force set the revision' }
 ];
 
@@ -20,11 +17,10 @@ const Sequelize = require("sequelize");
 const sequelize = require(modelsDir).sequelize;
 const queryInterface = sequelize.getQueryInterface();
 
-require(path.join(migrationsDir, options.file)).up(queryInterface, Sequelize);
-
-
-
-
-
-
-
+const mig = require(path.join(migrationsDir, options.file));
+if (options.pos && options.pos > 0)
+{
+    console.log("Set position to "+options.pos);
+    mig.pos = options.pos;
+}   
+mig.up(queryInterface, Sequelize);

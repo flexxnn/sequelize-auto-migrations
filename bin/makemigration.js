@@ -48,7 +48,10 @@ let models = sequelize.models;
 currentState.tables = migrate.reverseModels(sequelize, models);
     
 let actions = migrate.parseDifference(previousState.tables, currentState.tables);
-    
+
+// sort for actions    
+migrate.sortActions(actions);
+// sort again for dependences
 migrate.sortActions(actions);
     
 let migration = migrate.getMigration(actions);

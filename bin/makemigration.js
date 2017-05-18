@@ -3,22 +3,31 @@
 const commandLineArgs = require('command-line-args');
 const beautify          = require('js-beautify').js_beautify;
 
-let migrate = require("../lib/migrate")
+let migrate = require("../lib/migrate");
 
 const fs                = require("fs");
 const path              = require("path");
 const _                 = require("lodash");
 
 const optionDefinitions = [
-    { name: 'name', alias: 'n', type: String, description: 'Migration name',},
-    { name: 'comment', alias: 'c', type: String, description: 'Micgarion comment' },
     { name: 'preview', alias: 'p', type: Boolean, description: 'Show migration preview (does not change any files)' },
-//    { name: 'revision', type: Number, description: 'Force set the revision' }
+    { name: 'name', alias: 'n', type: String, description: 'Set migration name (default: "noname")',},
+    { name: 'comment', alias: 'c', type: String, description: 'Set migration comment' },
+    { name: 'execute', alias: 'x', type: Boolean, description: 'Create new migration and execute it' },
+    { name: 'help', type: Boolean, description: 'Show this message' }
 ];
 
 const options = commandLineArgs(optionDefinitions);
 
-console.log(options);
+if (options.help)
+{
+    console.log("Sequelize migration creation tool\n\nUsage:");
+    optionDefinitions.forEach((option) => {
+        let alias = (option.alias) ? ` (-${option.alias})` : '\t';
+        console.log(`\t --${option.name}${alias} \t${option.description}`);
+    });
+    process.exit(0);    
+}
 
 let migrationsDir = path.join(process.env.PWD, 'migrations'),
     modelsDir     = path.join(process.env.PWD, 'models');
@@ -84,10 +93,23 @@ currentState.revision = previousState.revision + 1;
 fs.writeFileSync(path.join(migrationsDir, '_current.json'), JSON.stringify(currentState, null, 4) );
 
 // write migration to file
-migrate.writeMigration(currentState.revision, 
+let info = migrate.writeMigration(currentState.revision, 
                migration,
                migrationsDir,
                (options.name) ? options.name : 'noname',
                (options.comment) ? options.comment: '');
 
-console.log(`Created new migration to revision ${currentState.revision}`);
+console.log(`New migration to revision ${currentState.revision} has been saved to file '${info.filename}'`);
+
+if (options.execute)
+{
+    migrate.executeMigration(sequelize.getQueryInterface(), info.filename, 0, (err) => {
+        if (!err)
+            console.log("Migration has been executed successfully");
+        else
+            console.log("Errors, during migration execution", err);
+        process.exit(0);
+    });
+}
+else
+    process.exit(0);

@@ -1,11 +1,38 @@
 # sequelize-auto-migrations
 Migration generator &amp;&amp; runner for sequelize
 
+This package provide two tools:
+* `makemigration` - tool for create new migrations
+* `runmigration` - tool for apply created by first tool migrations
+
+## Install
+`npm install sequelize-auto-migrations`
+
 ## Usage
 * Init sequelize, with sequelize-cli, using `sequelize init`
 * Create your models
-* To create initial migration - run `node ./node_modules/sequelize-auto-migrations/bin/makemigration --name <migration name>`
-* After changing models run it again, new migration file difference will be created
+* Create initial migration - run 
+`node ./node_modules/sequelize-auto-migrations/bin/makemigration --name <migration name>`
+* Change models and run it again, model difference will be saved to the next migration
 
-To see new migration, without any changes, you can run 
+To preview new migration, without any changes, you can run
 `node ./node_modules/sequelize-auto-migrations/bin/makemigration --preview`
+
+`makemigration` tool creates `_current.json` file in `migrations` dir, that is used to calculate difference to the next migration. Do not remove it!
+
+To create and then execute migration, use `makemigration --name <name> -x`
+
+## Executing migrations
+* There is simple command to performing all created migrations (from selected revision): 
+`node ./node_modules/sequelize-auto-migrations/bin/runmigration`
+* To select a revision, use `--rev <x>`
+* If one of migration fails, you can continue, use `--pos <x>`
+* To prevent execution of next migrations, use `--one`
+
+
+For more information, use `makemigration --help`, `runmigration --help`
+
+## TODO:
+* Add support for some field types
+* Now downgrade migrations is not supported, add it
+

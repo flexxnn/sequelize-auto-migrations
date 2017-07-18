@@ -11,21 +11,23 @@ This package provide two tools:
 ## Usage
 * Init sequelize, with sequelize-cli, using `sequelize init`
 * Create your models
-* Create initial migration - run
+* Create initial migration - run:
 
 `node ./node_modules/sequelize-auto-migrations/bin/makemigration --name <migration name>`
 * Change models and run it again, model difference will be saved to the next migration
 
-To preview new migration, without any changes, you can run
+To preview new migration, without any changes, you can run:
 
 `node ./node_modules/sequelize-auto-migrations/bin/makemigration --preview`
 
 `makemigration` tool creates `_current.json` file in `migrations` dir, that is used to calculate difference to the next migration. Do not remove it!
 
-To create and then execute migration, use `makemigration --name <name> -x`
+To create and then execute migration, use:
+`makemigration --name <name> -x`
 
 ## Executing migrations
-* There is simple command to perform all created migrations (from selected revision): 
+* There is simple command to perform all created migrations (from selected revision):
+
 `node ./node_modules/sequelize-auto-migrations/bin/runmigration`
 * To select a revision, use `--rev <x>`
 * If migration fails, you can continue, use `--pos <x>`
@@ -35,6 +37,8 @@ To create and then execute migration, use `makemigration --name <name> -x`
 For more information, use `makemigration --help`, `runmigration --help`
 
 ## TODO:
-* Add support for some field types
 * Now downgrade migrations is not supported, add it
+* When many foreign keys in tables, there is bug with migration order. Please check order manually (`--preview` option)
+* Need to check (and maybe fix) field types: `BLOB`, `RANGE`, `ARRAY`, `GEOMETRY`, `GEOGRAPHY`
+* This module tested with postgresql (I use it with my projects). Test with mysql and sqlite.
 

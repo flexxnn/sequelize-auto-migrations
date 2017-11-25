@@ -40,6 +40,27 @@ let fromRevision = options.rev;
 let fromPos = parseInt(options.pos);
 let stop = options.one;
 
+var tableName = 'SequelizeMeta' ;
+var SequelizeMeta = sequelize.define(tableName, {
+    name: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: true,
+        primaryKey: true,
+        autoIncrement: false
+    }
+});
+
+sequelize.query("CREATE TABLE `SequelizeMeta` (   `name` varchar(255) NOT NULL,   PRIMARY KEY (`name`),   UNIQUE KEY `name` (`name`),  UNIQUE KEY `SequelizeMeta_name_unique` (`name`) )");
+
+var already_uploaded = [];
+try {
+    sequelize.query("SELECT * FROM `SequelizeMeta`", { type: sequelize.QueryTypes.SELECT })
+        .then(users => {
+       for(var key in users){
+           already_uploaded[users[key].name] = true ;
+       }
+
 let migrationFiles = fs.readdirSync(migrationsDir)
 // filter JS files
   .filter((file) => {
@@ -57,9 +78,17 @@ let migrationFiles = fs.readdirSync(migrationsDir)
   .filter((file) => {
       let rev = parseInt( path.basename(file).split('-',2)[0]);
       return (rev >= fromRevision);
-  });
-  
-console.log("Migrations to execute:");  
+      //return false ;
+  })
+
+.filter((file) => {
+        return already_uploaded[file] != true ;
+}) ;
+// remove all migations which have already been loaded
+
+
+
+console.log("Migrations to execute:");
 migrationFiles.forEach((file) => {
     console.log("\t"+file);
 });
@@ -68,13 +97,17 @@ if (options.list)
     process.exit(0);
 
 
-Async.eachSeries(migrationFiles, 
+Async.eachSeries(migrationFiles,
     function (file, cb) {
         console.log("Execute migration from file: "+file);
         migrate.executeMigration(queryInterface, path.join(migrationsDir, file), fromPos, (err) => {
             if (stop)
                 return cb("Stopped");
-                
+            if(!err){
+                sequelize.query("INSERT INTO SequelizeMeta (name ) VALUES ( ? )",
+                     { replacements: [file] }).spread((results, metadata) => {
+                });
+            }
             cb(err);
         });
         // set pos to 0 for next migration
@@ -85,3 +118,8 @@ Async.eachSeries(migrationFiles,
         process.exit(0);
     }
 );
+
+});
+} catch (e){
+    console.log(e);
+}

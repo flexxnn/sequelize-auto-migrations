@@ -54,7 +54,6 @@ var SequelizeMeta = sequelize.define(tableName, {
 sequelize.query("CREATE TABLE `SequelizeMeta` (   `name` varchar(255) NOT NULL,   PRIMARY KEY (`name`),   UNIQUE KEY `name` (`name`),  UNIQUE KEY `SequelizeMeta_name_unique` (`name`) )");
 
 var already_uploaded = [];
-try {
     sequelize.query("SELECT * FROM `SequelizeMeta`", { type: sequelize.QueryTypes.SELECT })
         .then(users => {
        for(var key in users){
@@ -118,8 +117,4 @@ Async.eachSeries(migrationFiles,
         process.exit(0);
     }
 );
-
 });
-} catch (e){
-    console.log(e);
-}

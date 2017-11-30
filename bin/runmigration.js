@@ -12,7 +12,7 @@ const optionDefinitions = [
     { name: 'pos', alias: 'p', type: Number, description: 'Run first migration at pos (default: 0)', defaultValue: 0 },
     { name: 'one', type: Boolean, description: 'Do not run next migrations', defaultValue: false },
     { name: 'list', alias: 'l', type: Boolean, description: 'Show migration file list (without execution)', defaultValue: false },
-    { name: 'migrations-path', type: Boolean, description: 'The path to the migrations folder' },
+    { name: 'migrations-path', type: String, description: 'The path to the migrations folder' },
     { name: 'models-path', type: String, description: 'The path to the models folder' },
     { name: 'help', type: Boolean, description: 'Show this message' }
 ];

@@ -14,7 +14,7 @@ const optionDefinitions = [
     { name: 'name', alias: 'n', type: String, description: 'Set migration name (default: "noname")',},
     { name: 'comment', alias: 'c', type: String, description: 'Set migration comment' },
     { name: 'execute', alias: 'x', type: Boolean, description: 'Create new migration and execute it' },
-    { name: 'migrations-path', type: Boolean, description: 'The path to the migrations folder' },
+    { name: 'migrations-path', type: String, description: 'The path to the migrations folder' },
     { name: 'models-path', type: String, description: 'The path to the models folder' },
     { name: 'help', type: Boolean, description: 'Show this message' }
 ];

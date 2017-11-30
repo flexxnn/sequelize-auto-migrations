@@ -7,19 +7,20 @@ const Async             = require("async");
 
 const migrate           = require("../lib/migrate");
 
-let migrationsDir = path.join(process.env.PWD, 'migrations'),
-    modelsDir     = path.join(process.env.PWD, 'models');
-
 const optionDefinitions = [
     { name: 'rev', alias: 'r', type: Number, description: 'Set migration revision (default: 0)', defaultValue: 0 },
     { name: 'pos', alias: 'p', type: Number, description: 'Run first migration at pos (default: 0)', defaultValue: 0 },
     { name: 'one', type: Boolean, description: 'Do not run next migrations', defaultValue: false },
     { name: 'list', alias: 'l', type: Boolean, description: 'Show migration file list (without execution)', defaultValue: false },
+    { name: 'migrations-path', type: String, description: 'The path to the migrations folder' },
+    { name: 'models-path', type: String, description: 'The path to the models folder' },
     { name: 'help', type: Boolean, description: 'Show this message' }
 ];
 
 const options = commandLineArgs(optionDefinitions);
 
+let migrationsDir = path.join(process.env.PWD, options['migrations-path'] || 'migrations'),
+    modelsDir     = path.join(process.env.PWD, options['models-path'] || 'models');
 
 if (options.help)
 {

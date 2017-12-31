@@ -51,7 +51,10 @@ var SequelizeMeta = sequelize.define(tableName, {
     }
 });
 
-sequelize.query("CREATE TABLE \"SequelizeMeta\" (name varchar(255) NOT NULL PRIMARY KEY UNIQUE)");
+sequelize.query("
+  CREATE TABLE \"SequelizeMeta\" (name character varying(255) NOT NULL);
+  ALTER TABLE ONLY \"SequelizeMeta\" ADD CONSTRAINT \"SequelizeMeta_pkey\" PRIMARY KEY (name);
+");
 
 var already_uploaded = [];
 try {

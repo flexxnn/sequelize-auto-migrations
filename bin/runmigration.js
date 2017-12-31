@@ -40,7 +40,7 @@ let fromRevision = options.rev;
 let fromPos = parseInt(options.pos);
 let stop = options.one;
 
-var tableName = 'sequelize_meta' ;
+var tableName = 'SequelizeMeta' ;
 var SequelizeMeta = sequelize.define(tableName, {
     name: {
         type: Sequelize.STRING,
@@ -51,11 +51,11 @@ var SequelizeMeta = sequelize.define(tableName, {
     }
 });
 
-sequelize.query("CREATE TABLE sequelize_meta (name varchar(255) NOT NULL PRIMARY KEY UNIQUE)");
+sequelize.query("CREATE TABLE \"SequelizeMeta\" (name varchar(255) NOT NULL PRIMARY KEY UNIQUE)");
 
 var already_uploaded = [];
 try {
-    sequelize.query("SELECT * FROM sequelize_meta", { type: sequelize.QueryTypes.SELECT })
+    sequelize.query("SELECT * FROM \"SequelizeMeta\"", { type: sequelize.QueryTypes.SELECT })
         .then(users => {
        for(var key in users){
            already_uploaded[users[key].name] = true ;
@@ -104,7 +104,7 @@ Async.eachSeries(migrationFiles,
             if (stop)
                 return cb("Stopped");
             if(!err){
-                sequelize.query("INSERT INTO sequelize_meta (name ) VALUES ( ? )",
+                sequelize.query("INSERT INTO \"SequelizeMeta\" (name ) VALUES ( ? )",
                      { replacements: [file] }).spread((results, metadata) => {
                 });
             }

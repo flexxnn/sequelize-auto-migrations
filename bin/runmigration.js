@@ -51,7 +51,7 @@ var SequelizeMeta = sequelize.define(tableName, {
     }
 });
 
-sequelize.query("CREATE TABLE sequelize_meta (name varchar(255) NOT NULL PRIMARY KEY UNIQUE)");
+sequelize.query("CREATE TABLE SequelizeMeta (name varchar(255) NOT NULL PRIMARY KEY UNIQUE)");
 
 var already_uploaded = [];
 try {

@@ -51,14 +51,14 @@ var SequelizeMeta = sequelize.define(tableName, {
     }
 });
 
-sequelize.query("
-  CREATE TABLE \"SequelizeMeta\" (name character varying(255) NOT NULL);
-  ALTER TABLE ONLY \"SequelizeMeta\" ADD CONSTRAINT \"SequelizeMeta_pkey\" PRIMARY KEY (name);
-");
+sequelize.query(`
+  CREATE TABLE "SequelizeMeta" (name character varying(255) NOT NULL);
+  ALTER TABLE ONLY "SequelizeMeta" ADD CONSTRAINT "SequelizeMeta_pkey" PRIMARY KEY (name);
+`);
 
 var already_uploaded = [];
 try {
-    sequelize.query("SELECT * FROM \"SequelizeMeta\"", { type: sequelize.QueryTypes.SELECT })
+    sequelize.query(`SELECT * FROM "SequelizeMeta"`, { type: sequelize.QueryTypes.SELECT })
         .then(users => {
        for(var key in users){
            already_uploaded[users[key].name] = true ;
@@ -107,7 +107,7 @@ Async.eachSeries(migrationFiles,
             if (stop)
                 return cb("Stopped");
             if(!err){
-                sequelize.query("INSERT INTO \"SequelizeMeta\" (name ) VALUES ( ? )",
+                sequelize.query(`INSERT INTO "SequelizeMeta" (name ) VALUES ( ? )`,
                      { replacements: [file] }).spread((results, metadata) => {
                 });
             }

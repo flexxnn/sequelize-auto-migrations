@@ -31,6 +31,10 @@ if (options.help)
     process.exit(0);    
 }
 
+if(!process.env.PWD){
+    process.env.PWD = process.cwd()
+}
+
 let migrationsDir = path.join(process.env.PWD, options['migrations-path'] || 'migrations'),
     modelsDir     = path.join(process.env.PWD, options['models-path'] || 'models');
 

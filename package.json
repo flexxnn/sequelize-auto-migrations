@@ -1,5 +1,5 @@
 {
-  "name": "sequelize-auto-migrations",
+  "name": "sequelize-auto-migrations-fix",
   "version": "1.0.0",
   "description": "Sequelize migrations generator && runner",
   "main": "index.js",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/flexxnn/sequelize-auto-migrations.git"
+    "url": "git+https://github.com/Sreemanth/sequelize-auto-migrations.git"
   },
   "keywords": [
     "sequelize",

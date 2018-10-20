@@ -4,6 +4,7 @@ const commandLineArgs = require('command-line-args');
 const beautify          = require('js-beautify').js_beautify;
 
 let migrate = require("../lib/migrate");
+let pathConfig = require('../lib/pathconfig');
 
 const fs                = require("fs");
 const path              = require("path");
@@ -31,13 +32,7 @@ if (options.help)
     process.exit(0);    
 }
 
-if(!process.env.PWD){
-    process.env.PWD = process.cwd()
-}
-
-let migrationsDir = path.join(process.env.PWD, options['migrations-path'] || 'migrations'),
-    modelsDir     = path.join(process.env.PWD, options['models-path'] || 'models');
-
+let {migrationsDir, modelsDir} = pathConfig(options);
 
 // current state
 const currentState = {
@@ -56,7 +51,6 @@ try {
 } catch (e) { }
 
 //console.log(path.join(migrationsDir, '_current.json'), JSON.parse(fs.readFileSync(path.join(migrationsDir, '_current.json') )))
-
 let sequelize = require(modelsDir).sequelize;
 
 let models = sequelize.models;

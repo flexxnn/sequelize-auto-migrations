@@ -5,7 +5,7 @@ module.exports = function (DB, { INTEGER, BIGINT, DATE, STRING, ENUM, BOOLEAN, D
     {
       id:             { type: INTEGER,  allowNull: false, primaryKey: true, autoIncrement: true },
       test_param:     { type: BIGINT,  allowNull: false, defaultValue: 1000 },
-      first_name:     { type: STRING,   allowNull: false, defaultValue: '' },
+      first_name:     { type: STRING,   allowNull: true, defaultValue: 'abc', field: 'first-name' },
       last_name:      { type: STRING,   allowNull: false, defaultValue: '' },
       nickname:       { type: STRING,   allowNull: false, defaultValue: '' },
       gender:         { type: ENUM,     allowNull: false, values: ['male', 'female', 'unknown'], defaultValue: 'unknown' },

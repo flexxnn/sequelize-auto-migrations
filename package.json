@@ -3,6 +3,7 @@
   "version": "1.0.3",
   "description": "Sequelize migrations generator && runner",
   "main": "index.js",
+  "private": false,
   "bin": {
     "runmigration": "./bin/runmigration.js",
     "makemigration": "./bin/makemigration.js"

@@ -6,6 +6,7 @@ const fs                = require("fs");
 const Async             = require("async");
 
 const migrate           = require("../lib/migrate");
+const pathConfig = require('../lib/pathconfig');
 
 const optionDefinitions = [
     { name: 'rev', alias: 'r', type: Number, description: 'Set migration revision (default: 0)', defaultValue: 0 },
@@ -19,12 +20,7 @@ const optionDefinitions = [
 
 const options = commandLineArgs(optionDefinitions);
 
-if(!process.env.PWD){
-    process.env.PWD = process.cwd()
-}
-
-let migrationsDir = path.join(process.env.PWD, options['migrations-path'] || 'migrations'),
-    modelsDir     = path.join(process.env.PWD, options['models-path'] || 'models');
+let {migrationsDir, modelsDir} = pathConfig(options);
 
 if (options.help)
 {

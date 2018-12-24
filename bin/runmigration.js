@@ -20,7 +20,14 @@ const optionDefinitions = [
 
 const options = commandLineArgs(optionDefinitions);
 
-let {migrationsDir, modelsDir} = pathConfig(options);
+if(!process.env.PWD){
+    process.env.PWD = process.cwd()
+}
+
+let {
+    migrationsDir, 
+    modelsDir
+} = pathConfig(options);
 
 if (options.help)
 {

@@ -32,7 +32,14 @@ if (options.help)
     process.exit(0);    
 }
 
-let {migrationsDir, modelsDir} = pathConfig(options);
+if(!process.env.PWD){
+    process.env.PWD = process.cwd()
+}
+
+const {
+    migrationsDir, 
+    modelsDir
+} = pathConfig(options);
 
 // current state
 const currentState = {

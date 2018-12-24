@@ -13,12 +13,12 @@ This package provide two tools:
 * Create your models
 * Create initial migration - run:
 
-`node ./node_modules/sequelize-auto-migrations/bin/makemigration --name <migration name>`
+`makemigration --name <migration name>`
 * Change models and run it again, model difference will be saved to the next migration
 
 To preview new migration, without any changes, you can run:
 
-`node ./node_modules/sequelize-auto-migrations/bin/makemigration --preview`
+`makemigration --preview`
 
 `makemigration` tool creates `_current.json` file in `migrations` dir, that is used to calculate difference to the next migration. Do not remove it!
 
@@ -28,7 +28,7 @@ To create and then execute migration, use:
 ## Executing migrations
 * There is simple command to perform all created migrations (from selected revision):
 
-`node ./node_modules/sequelize-auto-migrations/bin/runmigration`
+`runmigration`
 * To select a revision, use `--rev <x>`
 * If migration fails, you can continue, use `--pos <x>`
 * To prevent execution next migrations, use `--one`

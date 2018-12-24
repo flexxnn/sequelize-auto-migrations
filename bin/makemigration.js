@@ -1,4 +1,4 @@
-#!/bin/node
+#!/usr/bin/env node
 
 const commandLineArgs = require('command-line-args');
 const beautify          = require('js-beautify').js_beautify;
@@ -32,6 +32,7 @@ if (options.help)
     process.exit(0);    
 }
 
+// Windows support
 if(!process.env.PWD){
     process.env.PWD = process.cwd()
 }
@@ -40,6 +41,16 @@ const {
     migrationsDir, 
     modelsDir
 } = pathConfig(options);
+
+if (!fs.existsSync(modelsDir)) {
+    console.log("Can't find models directory. Use `sequelize init` to create it")
+    return
+}
+
+if (!fs.existsSync(migrationsDir)) {
+    console.log("Can't find migrations directory. Use `sequelize init` to create it")
+    return
+}
 
 // current state
 const currentState = {

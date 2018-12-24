@@ -1,4 +1,4 @@
-#!/bin/node
+#!/usr/bin/env node
 
 const path              = require("path");
 const commandLineArgs   = require('command-line-args');
@@ -20,6 +20,7 @@ const optionDefinitions = [
 
 const options = commandLineArgs(optionDefinitions);
 
+// Windows support
 if(!process.env.PWD){
     process.env.PWD = process.cwd()
 }
@@ -28,6 +29,16 @@ let {
     migrationsDir, 
     modelsDir
 } = pathConfig(options);
+
+if (!fs.existsSync(modelsDir)) {
+    console.log("Can't find models directory. Use `sequelize init` to create it")
+    return
+}
+
+if (!fs.existsSync(migrationsDir)) {
+    console.log("Can't find migrations directory. Use `sequelize init` to create it")
+    return
+}
 
 if (options.help)
 {
@@ -39,7 +50,6 @@ if (options.help)
     process.exit(0);
 }
 
-const Sequelize = require("sequelize");
 const sequelize = require(modelsDir).sequelize;
 const queryInterface = sequelize.getQueryInterface();
 

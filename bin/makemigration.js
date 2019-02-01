@@ -14,7 +14,6 @@ const optionDefinitions = [
     { name: 'preview', alias: 'p', type: Boolean, description: 'Show migration preview (does not change any files)' },
     { name: 'name', alias: 'n', type: String, description: 'Set migration name (default: "noname")',},
     { name: 'comment', alias: 'c', type: String, description: 'Set migration comment' },
-    { name: 'execute', alias: 'x', type: Boolean, description: 'Create new migration and execute it' },
     { name: 'migrations-path', type: String, description: 'The path to the migrations folder' },
     { name: 'models-path', type: String, description: 'The path to the models folder' },
     { name: 'help', type: Boolean, description: 'Show this message' }
@@ -118,15 +117,4 @@ let info = migrate.writeMigration(currentState.revision,
 
 console.log(`New migration to revision ${currentState.revision} has been saved to file '${info.filename}'`);
 
-if (options.execute)
-{
-    migrate.executeMigration(sequelize.getQueryInterface(), info.filename, 0, (err) => {
-        if (!err)
-            console.log("Migration has been executed successfully");
-        else
-            console.log("Errors, during migration execution", err);
-        process.exit(0);
-    });
-}
-else
-    process.exit(0);
+process.exit(0);

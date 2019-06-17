@@ -10,6 +10,7 @@ const pathConfig = require('../lib/pathconfig');
 
 const optionDefinitions = [
     { name: 'rev', alias: 'r', type: Number, description: 'Set migration revision (default: 0)', defaultValue: 0 },
+    { name: 'rollback', alias: 'b', type: Boolean, description: 'Rollback to specified revision', defaultValue: false },
     { name: 'pos', alias: 'p', type: Number, description: 'Run first migration at pos (default: 0)', defaultValue: 0 },
     { name: 'no-transaction', type: Boolean, description: 'Run each change separately instead of all in a transaction (allows it to fail and continue)', defaultValue: false },
     { name: 'one', type: Boolean, description: 'Do not run next migrations', defaultValue: false },
@@ -58,6 +59,7 @@ const queryInterface = sequelize.getQueryInterface();
 let fromRevision = options.rev;
 let fromPos = parseInt(options.pos);
 let stop = options.one;
+let rollback = options.rollback;
 let noTransaction = options['no-transaction'];
 
 let migrationFiles = fs.readdirSync(migrationsDir)
@@ -69,8 +71,13 @@ let migrationFiles = fs.readdirSync(migrationsDir)
   .sort( (a, b) => {
       let revA = parseInt( path.basename(a).split('-',2)[0]),
           revB = parseInt( path.basename(b).split('-',2)[0]);
-      if (revA < revB) return -1;
-      if (revA > revB) return 1;
+      if (rollback) {
+          if (revA < revB) return 1;
+          if (revA > revB) return -1;
+      } else {
+          if (revA < revB) return -1;
+          if (revA > revB) return 1;
+      }
       return 0;
   })
 // remove all migrations before fromRevision
@@ -91,7 +98,7 @@ if (options.list)
 Async.eachSeries(migrationFiles, 
     function (file, cb) {
         console.log("Execute migration from file: "+file);
-        migrate.executeMigration(queryInterface, path.join(migrationsDir, file), !noTransaction, fromPos, (err) => {
+        migrate.executeMigration(queryInterface, path.join(migrationsDir, file), !noTransaction, fromPos, rollback, (err) => {
             if (stop)
                 return cb("Stopped");
                 

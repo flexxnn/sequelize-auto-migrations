@@ -75,12 +75,14 @@ let models = sequelize.models;
 
 currentState.tables = migrate.reverseModels(sequelize, models);
     
-let actions = migrate.parseDifference(previousState.tables, currentState.tables);
+let upActions = migrate.parseDifference(previousState.tables, currentState.tables);
+let downActions = migrate.parseDifference(currentState.tables, previousState.tables);
 
-// sort actions    
-migrate.sortActions(actions);
+// sort actions
+migrate.sortActions(upActions);
+migrate.sortActions(downActions);
 
-let migration = migrate.getMigration(actions);
+let migration = migrate.getMigration(upActions, downActions);
 
 if (migration.commandsUp.length === 0)
 {
@@ -120,7 +122,7 @@ console.log(`New migration to revision ${currentState.revision} has been saved t
 
 if (options.execute)
 {
-    migrate.executeMigration(sequelize.getQueryInterface(), info.filename, true, 0, (err) => {
+    migrate.executeMigration(sequelize.getQueryInterface(), info.filename, true, 0, false, (err) => {
         if (!err)
             console.log("Migration has been executed successfully");
         else

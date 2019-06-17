@@ -30,7 +30,8 @@ To create and then execute migration, use:
 
 `runmigration`
 * To select a revision, use `--rev <x>`
-* To prevent execution next migrations, use `--one`
+* To prevent execution of next migrations, use `--one`
+* To rollback/downgrade to the selected revision, use `--rollback`
 
 Each migration runs in a transaction, so it will be rolled back if part of it fails. To disable, use `--no-transaction`. Then, if it fails, you can continue by using `--pos <x>`.
 
@@ -40,5 +41,4 @@ For more information, use `makemigration --help`, `runmigration --help`
 ## TODO:
 * Migration action sorting procedure need some fixes. When many foreign keys in tables, there is a bug with action order. Now, please check it manually (`--preview` option)
 * Need to check (and maybe fix) field types: `BLOB`, `RANGE`, `ARRAY`, `GEOMETRY`, `GEOGRAPHY`
-* Downgrade is not supported, add it
 * This module tested with postgresql (I use it with my projects). Test with mysql and sqlite.

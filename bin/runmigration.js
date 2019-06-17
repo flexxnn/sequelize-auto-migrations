@@ -11,6 +11,7 @@ const pathConfig = require('../lib/pathconfig');
 const optionDefinitions = [
     { name: 'rev', alias: 'r', type: Number, description: 'Set migration revision (default: 0)', defaultValue: 0 },
     { name: 'pos', alias: 'p', type: Number, description: 'Run first migration at pos (default: 0)', defaultValue: 0 },
+    { name: 'no-transaction', type: Boolean, description: 'Run each change separately instead of all in a transaction (allows it to fail and continue)', defaultValue: false },
     { name: 'one', type: Boolean, description: 'Do not run next migrations', defaultValue: false },
     { name: 'list', alias: 'l', type: Boolean, description: 'Show migration file list (without execution)', defaultValue: false },
     { name: 'migrations-path', type: String, description: 'The path to the migrations folder' },
@@ -57,6 +58,7 @@ const queryInterface = sequelize.getQueryInterface();
 let fromRevision = options.rev;
 let fromPos = parseInt(options.pos);
 let stop = options.one;
+let noTransaction = options['no-transaction'];
 
 let migrationFiles = fs.readdirSync(migrationsDir)
 // filter JS files
@@ -89,7 +91,7 @@ if (options.list)
 Async.eachSeries(migrationFiles, 
     function (file, cb) {
         console.log("Execute migration from file: "+file);
-        migrate.executeMigration(queryInterface, path.join(migrationsDir, file), fromPos, (err) => {
+        migrate.executeMigration(queryInterface, path.join(migrationsDir, file), !noTransaction, fromPos, (err) => {
             if (stop)
                 return cb("Stopped");
                 

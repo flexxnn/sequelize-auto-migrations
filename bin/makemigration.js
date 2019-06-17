@@ -120,7 +120,7 @@ console.log(`New migration to revision ${currentState.revision} has been saved t
 
 if (options.execute)
 {
-    migrate.executeMigration(sequelize.getQueryInterface(), info.filename, 0, (err) => {
+    migrate.executeMigration(sequelize.getQueryInterface(), info.filename, true, 0, (err) => {
         if (!err)
             console.log("Migration has been executed successfully");
         else

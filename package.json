@@ -1,6 +1,6 @@
 {
   "name": "sequelize-auto-migrations",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Sequelize migrations generator && runner",
   "main": "index.js",
   "private": false,
@@ -36,6 +36,6 @@
     "js-beautify": "^1.8.9",
     "lodash": "^4.17.11",
     "object-hash": "^1.3.1",
-    "sequelize": "^4.42.0"
+    "sequelize": "^6.0.0"
   }
 }

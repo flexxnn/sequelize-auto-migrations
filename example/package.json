@@ -9,7 +9,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "sequelize": "^4.42.0",
+    "sequelize": "^5.15.1",
     "sqlite3": "^4.0.4"
   }
 }

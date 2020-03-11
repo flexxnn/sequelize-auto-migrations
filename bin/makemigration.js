@@ -29,7 +29,7 @@ if (options.help)
         let alias = (option.alias) ? ` (-${option.alias})` : '\t';
         console.log(`\t --${option.name}${alias} \t${option.description}`);
     });
-    process.exit(0);    
+    process.exit(0);
 }
 
 // Windows support
@@ -38,7 +38,7 @@ if(!process.env.PWD){
 }
 
 const {
-    migrationsDir, 
+    migrationsDir,
     modelsDir
 } = pathConfig(options);
 
@@ -56,28 +56,28 @@ if (!fs.existsSync(migrationsDir)) {
 const currentState = {
     tables: {}
 };
-    
+
 // load last state
 let previousState = {
     revision: 0,
     version: 1,
     tables: {}
 };
-    
+
 try {
     previousState = JSON.parse(fs.readFileSync(path.join(migrationsDir, '_current.json') ));
 } catch (e) { }
 
 //console.log(path.join(migrationsDir, '_current.json'), JSON.parse(fs.readFileSync(path.join(migrationsDir, '_current.json') )))
-let sequelize = require(modelsDir).sequelize;
+let sequelize = require(modelsDir);
 
 let models = sequelize.models;
 
 currentState.tables = migrate.reverseModels(sequelize, models);
-    
+
 let actions = migrate.parseDifference(previousState.tables, currentState.tables);
 
-// sort actions    
+// sort actions
 migrate.sortActions(actions);
 
 let migration = migrate.getMigration(actions);
@@ -110,7 +110,7 @@ currentState.revision = previousState.revision + 1;
 fs.writeFileSync(path.join(migrationsDir, '_current.json'), JSON.stringify(currentState, null, 4) );
 
 // write migration to file
-let info = migrate.writeMigration(currentState.revision, 
+let info = migrate.writeMigration(currentState.revision,
                migration,
                migrationsDir,
                (options.name) ? options.name : 'noname',

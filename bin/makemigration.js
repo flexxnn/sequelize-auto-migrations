@@ -69,7 +69,7 @@ try {
 } catch (e) { }
 
 //console.log(path.join(migrationsDir, '_current.json'), JSON.parse(fs.readFileSync(path.join(migrationsDir, '_current.json') )))
-let sequelize = require(modelsDir).database;
+let sequelize = require(modelsDir);
 
 let models = sequelize.models;
 

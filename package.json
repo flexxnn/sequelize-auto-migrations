@@ -1,7 +1,7 @@
 {
-  "name": "sequelize-auto-migrations",
+  "name": "sequelize-lazy-migrations",
   "version": "1.0.3",
-  "description": "Sequelize migrations generator && runner",
+  "description": "Sequelize migrations generator & runner",
   "main": "index.js",
   "private": false,
   "bin": {
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/flexxnn/sequelize-auto-migrations.git"
+    "url": "git+https://github.com/matmar10/sequelize-lazy-migrations.git"
   },
   "keywords": [
     "sequelize",
@@ -26,9 +26,9 @@
   "author": "Michael Maslov",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/flexxnn/sequelize-auto-migrations/issues"
+    "url": "https://github.com/matmar10/sequelize-lazy-migrations/issues"
   },
-  "homepage": "https://github.com/flexxnn/sequelize-auto-migrations#readme",
+  "homepage": "https://github.com/matmar10/sequelize-lazy-migrations#readme",
   "dependencies": {
     "async": "^2.5.1",
     "command-line-args": "^5.0.2",
